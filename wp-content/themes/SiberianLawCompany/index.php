@@ -11,9 +11,9 @@ $url_home = $var['url_home'];
 $email = get_field('admin_email', $set);
 ?>
 
-<?php if (have_rows('screens', $set)): ?>
+<?php if (have_rows('screens')): ?>
 
-    <?php while (have_rows('screens', $set)) : the_row(); ?>
+    <?php while (have_rows('screens')) : the_row(); ?>
 
         <?php if (get_row_layout() == 'screen_1'): ?>
 
