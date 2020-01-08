@@ -37,18 +37,20 @@ function adopt($text) {
 
 $headers = "MIME-Version: 1.0" . PHP_EOL .
 "Content-Type: text/html; charset=utf-8" . PHP_EOL .
-// 'From: '.adopt($project_name).' <info@'.$_SERVER['HTTP_HOST'].'>' . PHP_EOL .
+ 'From: '.adopt($project_name).' <info@'.$_SERVER['HTTP_HOST'].'>' . PHP_EOL .
 'Reply-To: '.$admin_email.'' . PHP_EOL;
 
-// mail($admin_email, adopt($form_subject), $message, $headers );
-$email->CharSet   = "utf-8";
-// $email->From      = 'info@xn--90ahbyabt6ar1f.xn--p1ai';
-$email->FromName  = $project_name;
-$email->Subject   = $form_subject;
-$email->isHTML(true);
-$email->Body      = $message;
-$email->AddAddress( $admin_email );
 
-$email->Send();
+//$email->CharSet   = "utf-8";
+// $email->From      = '<info@'.$_SERVER['HTTP_HOST'].'>';
+//$email->FromName  = $project_name;
+//$email->Subject   = $form_subject;
+//$email->isHTML(true);
+//$email->Body      = $message;
+//$email->AddAddress( $admin_email );
+
+var_dump(mail($admin_email, adopt($form_subject), $message, $headers ));
+
+
 
 // dushes1@yandex.ru

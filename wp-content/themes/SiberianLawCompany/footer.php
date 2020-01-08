@@ -5,6 +5,22 @@ $assets = $var['assets'];
 $url = $var['url'];
 $url_home = $var['url_home'];
 $email = get_field('admin_email', $set);
+
+
+$page_1 = get_field('page_1', $set);
+$page_2 = get_field('page_2', $set);
+
+$cat = get_field('category_page');
+$is_b = $cat == 'Бизнесу';
+$is_c = $cat == 'Гражданам';
+$is_not_cat = !$is_b && !$is_c;
+
+$link_to_home = get_the_permalink($page_2);
+
+if($is_c) {
+    $link_to_home = get_the_permalink($page_1);
+}
+
 ?>
 
 
@@ -44,7 +60,7 @@ $email = get_field('admin_email', $set);
             </div>
             <?php if (have_rows('social_links', $set)): ?>
                 <div class="footer-socials">
-                    <?php while (have_rows('social_links')) : the_row(); ?>
+                    <?php while (have_rows('social_links', $set)) : the_row(); ?>
                         <a href="<?php e('link'); ?>" class="footer-social">
                             <img src="<?php e('icon'); ?>" alt="">
                         </a>
@@ -60,21 +76,23 @@ $email = get_field('admin_email', $set);
     <div class="footer-bottom" style="background-color: #fff;">
         <div class="container">
             <div class="footer-bottom-container">
-                <a href="<?php echo $url; ?>" class="footer-logo logo">
-                    <img src="<?php the_field('logo_in_header', $set); ?>" alt="<?php bloginfo('name'); ?>">
-                </a>
+                <div class="footer-bottom-left">
+                    <a href="<?php echo $link_to_home; ?>" class="footer-logo logo">
+                        <img src="<?php the_field('logo_in_header', $set); ?>" alt="<?php bloginfo('name'); ?>">
+                    </a>
+                    <div class="footer-number">
+                        <?php the_field('inn', $set); ?>
+                    </div>
+                </div>
+
                 <div class="footer-bottom-text">
                     <p>
                         <?php the_field('text_in_footer', $set); ?>
 
                     </p>
-                    <?php $link_in_footer = get_field('link_in_footer');
-                    if($link_in_footer):
-                    ?>
-                    <a href="<?php echo $link_in_footer['link']; ?>" class="footer-bottom__link">
-                        <?php echo $link_in_footer['title']; ?>
+                    <a href="https://xn--90anhz1e.xn--p1ai/politika-v-oblasti-obrabotki-i-zashhity-personalnyh-dannyh-OOO-Sib.JuK.pdf" target="_blank" class="footer-bottom__link">
+                        Политика конфиденциальности
                     </a>
-                    <?php endif; ?>
                 </div>
             </div>
 
@@ -113,9 +131,14 @@ $email = get_field('admin_email', $set);
             </label>
             <input type="hidden" class="text-js" name="text" value="">
             <div class="modal-get-forecast__text">
-                <p>
+                <label class="conditions-form__container">
+                    <input checked="" name="policy" type="checkbox" class="conditions-form__checkbox">
+                    <span></span>
                     <?php e('text'); ?>
-                </p>
+                </label>
+<!--                <p>-->
+<!--                    --><?php //e('text'); ?>
+<!--                </p>-->
             </div>
 
             <button class="button--gradient modal-get-forecast__button">
@@ -128,22 +151,105 @@ $email = get_field('admin_email', $set);
 
 <?php endif; ?>
 
+<?php if (have_rows('modal_form_1', $set)): ?>
+
+<?php while (have_rows('modal_form_1', $set)) : the_row(); ?>
+
+        <form
+                action="<?php echo $url_home; ?>mail.php"
+                class="modal form modal-consult"
+                id="modal-consult"
+                style="background-color: #fff;"
+                novalidate
+        >
+
+            <input type="hidden" name="project_name" value="<?php bloginfo('name'); ?>">
+            <input type="hidden" name="admin_email" value="<?php echo $email; ?>">
+            <input type="hidden" name="form_subject" value="<?php e('subject'); ?>">
+
+            <h6 class="modal-consult__title">
+                <?php e('title'); ?>
+            </h6>
+
+            <div class="modal-consult__text text">
+                <p>
+                    <?php e('description'); ?>
+                </p>
+            </div>
+
+            <?php $l = g('link'); ?>
+
+            <?php if($l): ?>
+
+                <a href="<?php echo $l['url']; ?>" class="button button--gradient modal-consult__link"><?php echo $l['title']; ?></a>
+
+            <?php endif; ?>
+
+
+
+            <textarea class="modal-consult__textarea" name="Сообщение" placeholder="<?php e('placeholder_1'); ?>"></textarea>
+
+            <label class="conditions-form__label modal-consult__label">
+                <span class="conditions-form__img">
+                    <img src="<?php echo $assets; ?>img/phone-img.png" alt="">
+                </span>
+                <input required type="tel" class="conditions-form__input modal-consult__input" name="Телефон" placeholder="<?php e('placeholder_3'); ?>">
+            </label>
+
+            <button class="button button--gradient modal-consult__button">
+                <?php e('button_text'); ?>
+            </button>
+
+            <label class="conditions-form__container">
+                <input type="checkbox" name="policy" checked class="conditions-form__checkbox">
+                <span></span>
+                <p>
+                    <?php e('text'); ?>
+                </p>
+            </label>
+
+        </form>
+
+    <?php endwhile; ?>
+
+<?php endif; ?>
+
+
+
 <?php if (have_rows('modal_thanks', $set)): ?>
 
     <?php while (have_rows('modal_thanks', $set)) : the_row(); ?>
         <div
             class="modal modal-get-forecast"
-            style="background-image: url(<?php e('bg'); ?>)"
             id="modal_thanks">
 
-            <h6 class="modal-get-forecast__title forecast__title">
+            <h6 class="modal-get-forecast__title forecast__title" style="color: #064e63">
                 <?php e('title'); ?>
             </h6>
-            <div class="modal-get-forecast__text">
+            <div class="modal-get-forecast__text" style="color: #064e63">
                 <p>
                     <?php e('text'); ?>
                 </p>
             </div>
+
+            <?php if (have_rows('socials', $set)): ?>
+
+                <div class="modal-socials" style="background: #c7212c">
+
+                    <?php while (have_rows('socials', $set)) : the_row(); ?>
+
+                        <a href="<?php e('link'); ?>" class="modal-socials__item">
+
+                            <img src="<?php e('icon'); ?>" alt="">
+
+                        </a>
+
+                    <?php endwhile; ?>
+
+                </div>
+
+            <?php endif; ?>
+
         </div>
     <?php endwhile; ?>
 

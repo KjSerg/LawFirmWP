@@ -173,7 +173,7 @@ $email = get_field('admin_email', $set);
                                             </button>
 
                                             <label class="conditions-form__container">
-                                                <input checked type="checkbox" class="conditions-form__checkbox">
+                                                <input checked name="policy" type="checkbox" class="conditions-form__checkbox">
                                                 <span></span>
                                                 <?php e('consent') ?>
                                             </label>
@@ -315,6 +315,12 @@ $email = get_field('admin_email', $set);
                             <a href="<?php e('link'); ?>" target="_blank" class="media__link">
                                 <img src="<?php e('img'); ?>" alt="">
                             </a>
+                            <h3 class="section__title media__title" style="margin-top: 10rem; margin-bottom: 0">
+                                <?php e('subtitle'); ?>
+                            </h3>
+                            <div style="margin-top: 5rem;" class="media__link">
+                                <img src="<?php e('img_2'); ?>" alt="">
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -368,7 +374,7 @@ $email = get_field('admin_email', $set);
                                                 </button>
 
                                                 <label class="conditions-form__container">
-                                                    <input checked type="checkbox" class="conditions-form__checkbox">
+                                                    <input checked name="policy" type="checkbox" class="conditions-form__checkbox">
                                                     <span></span>
                                                     <?php e('consent'); ?>
                                                 </label>
@@ -436,6 +442,14 @@ $email = get_field('admin_email', $set);
 
                             </div>
 
+                            <?php if(g('certificate')): ?>
+
+                                <div style="margin-top: 5rem;" class="media__link">
+                                    <img src="<?php e('certificate'); ?>" alt="">
+                                </div>
+
+                            <?php endif; ?>
+
                         </div>
                     </div>
                 </section>
@@ -495,7 +509,7 @@ $email = get_field('admin_email', $set);
                                                 </button>
 
                                                 <label class="conditions-form__container best-form__container">
-                                                    <input checked type="checkbox" class="conditions-form__checkbox">
+                                                    <input checked name="policy" type="checkbox" class="conditions-form__checkbox">
                                                     <span></span>
                                                     <?php e('consent'); ?>
                                                 </label>

@@ -352,9 +352,10 @@ $email = get_field('admin_email', $set);
                                 <div class="facts-additionally__text">
                                     <p>
                                         <?php e('text'); ?>
-                                        <?php if (g('link')): ?>
-                                            <a href="<?php e('link'); ?>" class="more">. . .</a>
-                                        <?php endif; ?>
+                                            <a href="#" class="more">. . .</a>
+                                        <span class="hidden-text" style="display:none;">
+                                            <?php e('text_1'); ?>
+                                        </span>
                                     </p>
                                 </div>
                             </div>
@@ -463,6 +464,100 @@ $email = get_field('admin_email', $set);
                                     </div>
                                 <?php endif; ?>
                             </div>
+                        </div>
+                    </div>
+                </section>
+
+            <?php endif; ?>
+        <?php elseif ( get_row_layout() == 'screen_cases' ): ?>
+            <?php if (!get_sub_field('screen_off')) : ?>
+
+                <section class="section cases-section" id="<?php e('screen_id'); ?>" style="background-color: #faf7f1;">
+                    <div class="container">
+                        <div class="cases">
+                            <h3 class="section__title cases__title">
+                                <?php e('title'); ?>
+                            </h3>
+                            <h4 class="cases__subtitle">
+                                <?php e('subtitle'); ?>
+                            </h4>
+                            <div class="cases-slider-container">
+                                <div class="cases-slider__buttons">
+                                    <a href="#" class="cases-slider__button cases-slider__button--left">
+                                        <img src="<?php echo $assets; ?>img/arr-left.png" alt="">
+                                    </a>
+                                    <a href="#" class="cases-slider__button cases-slider__button--right">
+                                        <img src="<?php echo $assets; ?>img/arr-right.png" alt="">
+                                    </a>
+                                </div>
+
+                                <?php if (have_rows('cases')): ?>
+
+                                    <div class="cases-slider">
+
+                                        <?php while (have_rows('cases')) : the_row();
+
+                                            $case = g('case');
+                                            ?>
+
+                                            <div>
+                                                <div class="cases-slider-item">
+                                                    <div class="cases-slider-left">
+                                                        <h6 class="cases-slider-left__title">
+                                                            <?php e('subtitle'); ?>
+                                                        </h6>
+                                                        <?php
+
+                                                        $l = get_field('link', $case);
+                                                        if ($l):
+
+                                                            ?>
+                                                            <a href="<?php echo $l['url']; ?>" target="_blank"
+                                                               class="cases-slider-left__link">
+                                                                <?php echo $l['title']; ?> <img
+                                                                        src="<?php echo $assets; ?>img/link.png" alt="">
+                                                            </a>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="cases-slider-right">
+                                                        <?php if (have_rows('blocks', $case)): ?>
+                                                            <?php while (have_rows('blocks', $case)) : the_row(); ?>
+                                                                <div class="cases-slider-text">
+                                                                    <?php e('text') ?>
+                                                                </div>
+                                                            <?php endwhile; ?>
+                                                        <?php endif; ?>
+
+                                                        <div class="cases-slider-text cases-slider-text--result">
+                                                            <?php the_field('result', $case); ?>
+                                                        </div>
+
+                                                        <?php if (get_field('img', $case)): ?>
+
+                                                            <div class="cases-slider-text cases-slider-text--review">
+                                                                <h6>
+                                                                    отзыв
+                                                                </h6>
+                                                                <a href="<?php the_field('img', $case); ?>"
+                                                                   class="cases-slider__review fancybox">
+                                                                    <img src="<?php the_field('img', $case); ?>" alt="">
+                                                                </a>
+                                                            </div>
+
+                                                        <?php endif; ?>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <?php endwhile; ?>
+
+                                    </div>
+
+                                <?php endif; ?>
+
+                            </div>
+
                         </div>
                     </div>
                 </section>

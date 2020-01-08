@@ -4,6 +4,21 @@ $set = $var['setting_home'];
 $assets = $var['assets'];
 $url = $var['url'];
 $url_home = $var['url_home'];
+
+$page_1 = get_field('page_1', $set);
+$page_2 = get_field('page_2', $set);
+
+$cat = get_field('category_page');
+$is_b = $cat == 'Бизнесу';
+$is_c = $cat == 'Гражданам';
+$is_not_cat = !$is_b && !$is_c;
+
+$link_to_home = get_the_permalink($page_2);
+
+if($is_c) {
+    $link_to_home = get_the_permalink($page_1);
+}
+
 ?>
 
 
@@ -39,41 +54,44 @@ $url_home = $var['url_home'];
                 <span></span><span></span><span></span>
             </a>
             <div class="header-top">
-                <a href="<?php echo $url; ?>" class="logo">
+                <a href="<?php echo $link_to_home; ?>" class="logo">
                     <img src="<?php the_field('logo_in_header', $set); ?>" class="logo-img" alt="<?php bloginfo('name'); ?>">
                 </a>
                 <div class="header-links ">
 
-                    <?php if (have_rows('list_links', $set)): ?>
+                    <a
+                            href="<?php echo get_the_permalink($page_1); ?>"
 
-                        <?php while (have_rows('list_links', $set)) : the_row(); ?>
+                            class="header__link <?php if($is_c) echo 'active'; ?>">
+                        Гражданам
+                    </a>
 
-                            <a
-                                href="<?php echo g('link')['url']; ?>"
-                                target="<?php echo g('link')['target']; ?>"
-                                class="header__link">
-                                <?php echo g('link')['title']; ?>
-                            </a>
+                    <a
+                            href="<?php echo get_the_permalink($page_2); ?>"
 
-                        <?php endwhile; ?>
-
-                    <?php endif; ?>
+                            class="header__link <?php if($is_b) echo 'active'; ?>">
+                        Бизнесу
+                    </a>
 
                 </div>
                 <div class="header-contacts hide-in-mobile">
-                    <a href="mailto:<?php the_field('email', $set); ?>" class="header-contacts__link">
-                        <img src="<?php echo $assets; ?>img/mail.png" class="header-contacts__icon" alt="">
-                        <strong><?php the_field('email', $set); ?></strong>
-                    </a>
                     <?php $g = get_field('address', $set); ?>
                     <a href="<?php echo $g['url']; ?>" target="<?php echo $g['target']; ?>" class="header-contacts__link">
                         <img src="<?php echo $assets; ?>img/location.png" class="header-contacts__icon" alt="">
                         <?php echo $g['title']; ?>
                     </a>
-                    <a href="tel:<?php the_field('phone', $set); ?>" class="header-contacts__link">
+
+                    <a href="tel:<?php the_field('phone', $set); ?>" class="header-contacts__link header-contacts__link--phone">
                         <img src="<?php echo $assets; ?>img/phone.png" class="header-contacts__icon" alt="">
                         <strong><?php the_field('phone', $set); ?></strong>
                     </a>
+
+                    <a href="mailto:<?php the_field('email', $set); ?>" class="header-contacts__link">
+                        <img src="<?php echo $assets; ?>img/mail.png" class="header-contacts__icon" alt="">
+                        <strong><?php the_field('email', $set); ?></strong>
+                    </a>
+
+
                 </div>
             </div>
             <div class="header-navigation hide-in-mobile">
@@ -90,6 +108,21 @@ $url_home = $var['url_home'];
                         ?>
                             <li>
                                 <a <?php if(!$is_link) echo 'class="scroll-to-js"' ?> href="<?php echo $link; ?>"><?php echo $title; ?></a>
+
+                                <?php if (have_rows('submenu')): ?>
+
+                                    <ul class="header-navigation__submenu">
+                                        <?php while (have_rows('submenu')) : the_row();
+
+                                        $l = $is_b ? g('link_2') : g('link_1');
+
+                                        ?>
+                                            <li><a href="<?php echo $l['url']; ?>"><?php echo $l['title']; ?></a></li>
+                                        <?php endwhile; ?>
+                                    </ul>
+
+                                <?php endif; ?>
+
                             </li>
                         <?php endwhile; ?>
 
